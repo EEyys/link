@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>常用快捷链接导航</title>
     <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +19,7 @@
 
         body {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
             padding: 20px;
             color: #333;
@@ -191,26 +197,7 @@
         </div>
     </div>
 
-    <script>
-        // 配置数据 - 可以单独提取到config.js文件中
-        const linksConfig = {
-            "全屏钱包": {
-                icon: "💰",
-                links: [
-                    { title: "OKX钱包", url: "chrome-extension://mcohilncbfahbmgdjkbpemcciiolgcge/home.html", icon: "🔶" },
-                    { title: "MetaMask钱包", url: "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html", icon: "🦊" },
-                    { title: "Phantom钱包", url: "chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/popup.html", icon: "👻" }
-                ]
-            },
-            "Chrome设置": {
-                icon: "⚙️",
-                links: [
-                    { title: "扩展管理", url: "chrome://extensions/", icon: "🧩" },
-                    { title: "历史记录", url: "chrome://history/", icon: "📚" },
-                    { title: "书签管理", url: "chrome://bookmarks/", icon: "🔖" },
-                    { title: "清除缓存", url: "chrome://settings/privacy", icon: "🧹" },
-                    { title: "设置语言", url: "chrome://settings/languages", icon: "🌐" },
-                    { title: "网页缩放", url: "chrome://settings/appearance", icon: "🔍" },
+ url: "chrome://settings/appearance", icon: "🔍" },
                     { title: "APP管理", url: "chrome://apps/", icon: "📱" },
                     { title: "查看版本", url: "chrome://version/", icon: "ℹ️" }
                 ]
@@ -237,13 +224,30 @@
             }
         };
 
+        // 应用网站配置
+        function applySiteConfig() {
+            if (typeof siteConfig !== 'undefined') {
+                document.querySelector('.header h1').textContent = siteConfig.title;
+                document.querySelector('.header p').textContent = siteConfig.subtitle;
+                document.querySelector('.footer p').textContent = siteConfig.footer;
+                document.querySelector('.search-input').placeholder = siteConfig.searchPlaceholder;
+                
+                // 应用主题色彩
+                if (siteConfig.theme) {
+                    document.documentElement.style.setProperty('--primary-color', siteConfig.theme.primaryColor);
+                    document.documentElement.style.setProperty('--secondary-color', siteConfig.theme.secondaryColor);
+                }
+            }
+        }
+
         // 生成分类和链接
         function generateCategories() {
             const categoriesContainer = document.getElementById('categories');
             categoriesContainer.innerHTML = '';
-
-            Object.keys(linksConfig).forEach(categoryName => {
-                const categoryData = linksConfig[categoryName];
+            
+            const configToUse = window.linksConfig || linksConfig;
+            Object.keys(configToUse).forEach(categoryName => {
+                const categoryData = configToUse[categoryName];
                 
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category';
@@ -328,11 +332,40 @@
             });
         }
 
+        // 添加导出功能
+        function exportConfig() {
+            const configToExport = {
+                linksConfig: window.linksConfig || linksConfig,
+                siteConfig: window.siteConfig || {}
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(configToExport, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "config.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        // 添加管理员快捷键
+        function setupAdminShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Alt + E 导出配置
+                if (e.altKey && e.key === 'e') {
+                    e.preventDefault();
+                    exportConfig();
+                }
+            });
+        }
+
         // 初始化
         document.addEventListener('DOMContentLoaded', () => {
+            applySiteConfig();
             generateCategories();
             setupSearch();
             setupKeyboardShortcuts();
+            setupAdminShortcuts();
         });
 
         // 点击统计（可选）
