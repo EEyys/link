@@ -35,55 +35,23 @@ const linksConfig = {
             { title: "设置语言", url: "chrome://settings/languages", icon: "🌐" },
             { title: "网页缩放", url: "chrome://settings/appearance", icon: "🔍" },
             { title: "APP管理", url: "chrome://apps/", icon: "📱" },
-            { title: "查看版本", url: "chrome://version/", icon: "ℹ️" },
-            { title: "下载管理", url: "chrome://downloads/", icon: "⬇️" },
-            { title: "安全设置", url: "chrome://settings/security", icon: "🔒" }
+            { title: "密码管理", url: "chrome://password-manager/passwords", icon: "🔑" }
         ]
     },
-    "开发工具": {
-        icon: "🛠️",
+    "推特快捷链接": {
+        icon: "🐦",
         links: [
-            { title: "GitHub", url: "https://github.com", icon: "🐱" },
-            { title: "GitLab", url: "https://gitlab.com", icon: "🦊" },
-            { title: "Stack Overflow", url: "https://stackoverflow.com", icon: "📚" },
-            { title: "MDN Web Docs", url: "https://developer.mozilla.org", icon: "📖" },
-            { title: "Can I Use", url: "https://caniuse.com", icon: "✅" },
-            { title: "CodePen", url: "https://codepen.io", icon: "🖊️" },
-            { title: "JSFiddle", url: "https://jsfiddle.net", icon: "⚡" },
-            { title: "Regex101", url: "https://regex101.com", icon: "🔤" }
+            { title: "修改密码", url: "https://x.com/settings/password", icon: "🔑" },
+            { title: "语言设置", url: "https://x.com/settings/language", icon: "🌐" },
+            { title: "资料设置", url: "https://x.com/settings/profile", icon: "📚" },
+            { title: "修改邮箱", url: "https://x.com/settings/email", icon: "📧" },
+            { title: "2FA", url: "https://x.com/settings/account/login_verification", icon: "🔒" }
         ]
     },
-    "常用网站": {
+    "Discord": {
         icon: "🌐",
         links: [
-            { title: "Google", url: "https://google.com", icon: "🔍" },
-            { title: "百度", url: "https://baidu.com", icon: "🔍" },
-            { title: "腾讯邮箱", url: "https://mail.qq.com", icon: "📧" },
-            { title: "网易邮箱", url: "https://mail.163.com", icon: "📧" },
-            { title: "微博", url: "https://weibo.com", icon: "🐦" },
-            { title: "知乎", url: "https://zhihu.com", icon: "🤔" },
-            { title: "B站", url: "https://bilibili.com", icon: "📺" }
-        ]
-    },
-    "AI工具": {
-        icon: "🤖",
-        links: [
-            { title: "ChatGPT", url: "https://chat.openai.com", icon: "💬" },
-            { title: "Claude", url: "https://claude.ai", icon: "🧠" },
-            { title: "Midjourney", url: "https://midjourney.com", icon: "🎨" },
-            { title: "Stable Diffusion", url: "https://stability.ai", icon: "🖼️" },
-            { title: "Runway", url: "https://runwayml.com", icon: "🎬" }
-        ]
-    },
-    "在线工具": {
-        icon: "🔧",
-        links: [
-            { title: "TinyPNG", url: "https://tinypng.com", icon: "📷" },
-            { title: "JSON格式化", url: "https://jsonformatter.org", icon: "📋" },
-            { title: "Base64编码", url: "https://base64encode.org", icon: "🔐" },
-            { title: "颜色选择器", url: "https://colorpicker.me", icon: "🎨" },
-            { title: "二维码生成", url: "https://qr-code-generator.com", icon: "📱" },
-            { title: "PDF工具", url: "https://smallpdf.com", icon: "📄" }
+            { title: "首页", url: "https://discord.com/channels/@me", icon: "🏠" }
         ]
     }
 };
