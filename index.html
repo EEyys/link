@@ -197,7 +197,25 @@
         </div>
     </div>
 <script>
- url: "chrome://settings/appearance", icon: "🔍" },
+        // 配置数据 - 可以单独提取到config.js文件中
+        const linksConfig = {
+            "全屏钱包": {
+                icon: "💰",
+                links: [
+                    { title: "OKX钱包", url: "chrome-extension://mcohilncbfahbmgdjkbpemcciiolgcge/home.html", icon: "🔶" },
+                    { title: "MetaMask钱包", url: "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html", icon: "🦊" },
+                    { title: "Phantom钱包", url: "chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/popup.html", icon: "👻" }
+                ]
+            },
+            "Chrome设置": {
+                icon: "⚙️",
+                links: [
+                    { title: "扩展管理", url: "chrome://extensions/", icon: "🧩" },
+                    { title: "历史记录", url: "chrome://history/", icon: "📚" },
+                    { title: "书签管理", url: "chrome://bookmarks/", icon: "🔖" },
+                    { title: "清除缓存", url: "chrome://settings/privacy", icon: "🧹" },
+                    { title: "设置语言", url: "chrome://settings/languages", icon: "🌐" },
+                    { title: "网页缩放", url: "chrome://settings/appearance", icon: "🔍" },
                     { title: "APP管理", url: "chrome://apps/", icon: "📱" },
                     { title: "查看版本", url: "chrome://version/", icon: "ℹ️" }
                 ]
