@@ -24,165 +24,209 @@ project/
         └── deploy.yml # 自动部署配置
 ```
 
-## 🚀 快速开始
 
-### 方法一：GitHub Pages 部署
+# 部署指南
 
-1. **Fork 或创建新仓库**
-   ```bash
-   git clone <your-repo>
-   cd <your-repo>
-   ```
+本指南将帮助你将快捷链接导航网站部署到 GitHub Pages 或 Cloudflare Pages。
 
-2. **修改配置文件**
-   编辑 `config.js` 文件，添加或修改你的链接
+## 📋 准备工作
 
-3. **推送到 GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+确保你有以下文件：
+- `index.html` - 主页面文件
+- `config.js` - 配置文件（重要！）
+- `README.md` - 项目说明
+- `.github/workflows/deploy.yml` - GitHub Actions配置（可选）
 
-4. **开启 GitHub Pages**
-   - 进入仓库 Settings
-   - 找到 Pages 选项
-   - Source 选择 "Deploy from a branch"
-   - Branch 选择 "main"
-   - 点击 Save
+## 🚀 方式一：GitHub Pages 部署
 
-### 方法二：Cloudflare Pages 部署
+### 1. 创建 GitHub 仓库
 
-1. **连接 GitHub 仓库**
-   - 登录 Cloudflare Pages
-   - 点击 "Create a project"
-   - 连接你的 GitHub 账户
-   - 选择仓库
+1. 登录 [GitHub](https://github.com)
+2. 点击右上角的 "+" -> "New repository"
+3. 输入仓库名称，如：`my-quick-links`
+4. 选择 "Public"
+5. 点击 "Create repository"
 
-2. **配置构建设置**
-   - Framework preset: None
-   - Build command: 留空
-   - Build output directory: `/`
+### 2. 上传文件
 
-3. **部署**
-   - 点击 "Save and Deploy"
-   - 等待部署完成
+#### 方法 A：网页上传（推荐新手）
 
-## ⚙️ 配置说明
+1. 在新创建的仓库页面点击 "uploading an existing file"
+2. 将所有文件拖拽到上传区域
+3. 输入提交信息：`Initial commit`
+4. 点击 "Commit new files"
+
+#### 方法 B：Git 命令行
+
+```bash
+# 克隆仓库
+git clone https://github.com/你的用户名/仓库名.git
+cd 仓库名
+
+# 添加文件
+# 将 index.html, config.js 等文件复制到此目录
+
+# 提交文件
+git add .
+git commit -m "Initial commit"
+git push origin main
+```
+
+### 3. 开启 GitHub Pages
+
+1. 进入仓库页面
+2. 点击 "Settings" 标签
+3. 在左侧菜单找到 "Pages"
+4. 在 "Source" 下选择 "Deploy from a branch"
+5. 选择 "main" 分支
+6. 点击 "Save"
+7. 等待几分钟，访问显示的链接
+
+### 4. 自定义域名（可选）
+
+1. 在 "Pages" 设置中的 "Custom domain" 输入你的域名
+2. 在你的域名DNS设置中添加CNAME记录指向 `用户名.github.io`
+
+## 🌐 方式二：Cloudflare Pages 部署
+
+### 1. 准备 GitHub 仓库
+
+按照上面的步骤 1-2 创建并上传文件到 GitHub 仓库。
+
+### 2. 连接 Cloudflare Pages
+
+1. 登录 [Cloudflare](https://dash.cloudflare.com)
+2. 选择 "Pages" 选项卡
+3. 点击 "Create a project"
+4. 选择 "Connect to Git"
+5. 连接你的 GitHub 账户
+6. 选择你的仓库
+
+### 3. 配置构建设置
+
+- **Project name**: 输入项目名称
+- **Production branch**: `main`
+- **Framework preset**: `None`
+- **Build command**: 留空
+- **Build output directory**: `/`
+
+### 4. 部署
+
+1. 点击 "Save and Deploy"
+2. 等待构建完成
+3. 访问提供的链接
+
+### 5. 自定义域名（可选）
+
+1. 在项目设置中点击 "Custom domains"
+2. 点击 "Set up a custom domain"
+3. 输入域名并按提示设置DNS
+
+## ⚙️ 配置管理
 
 ### 修改链接
 
-编辑 `config.js` 文件中的 `linksConfig` 对象：
+1. 编辑 `config.js` 文件
+2. 修改 `linksConfig` 对象
+3. 提交更改到 GitHub
 
 ```javascript
-const linksConfig = {
-    "分类名称": {
-        icon: "🔥", // 分类图标
-        links: [
-            { 
-                title: "链接标题", 
-                url: "https://example.com", 
-                icon: "🌐",
-                description: "链接描述（可选）"
-            }
-        ]
-    }
-};
-```
-
-### 修改网站信息
-
-编辑 `config.js` 文件中的 `siteConfig` 对象：
-
-```javascript
-const siteConfig = {
-    title: "你的网站标题",
-    subtitle: "网站副标题",
-    footer: "© 2025 你的网站名称",
-    searchPlaceholder: "搜索提示文字",
-    theme: {
-        primaryColor: "#667eea",
-        secondaryColor: "#764ba2"
-    }
-};
-```
-
-## 🔧 自定义功能
-
-### 添加新分类
-
-```javascript
-// 在 config.js 中添加
-"新分类": {
-    icon: "📱",
+// 示例：添加新分类
+"我的工具": {
+    icon: "🔧",
     links: [
-        { title: "示例链接", url: "https://example.com", icon: "🔗" }
+        { title: "我的网站", url: "https://example.com", icon: "🌐" }
     ]
 }
 ```
 
-### 修改样式
+### 修改网站信息
 
-直接编辑 `index.html` 中的 CSS 部分，或创建独立的 `style.css` 文件。
-
-### 添加统计功能
-
-在 `index.html` 的点击事件中添加统计代码：
+编辑 `config.js` 中的 `siteConfig`：
 
 ```javascript
-// 找到这部分代码并修改
-document.addEventListener('click', (e) => {
-    if (e.target.closest('.link-item')) {
-        const linkTitle = e.target.closest('.link-item').querySelector('.link-title').textContent;
-        // 添加你的统计代码
-        gtag('event', 'click', {
-            'event_category': 'link',
-            'event_label': linkTitle
-        });
-    }
-});
+const siteConfig = {
+    title: "我的导航",
+    subtitle: "个人常用链接",
+    footer: "© 2025 我的导航网站"
+};
 ```
 
-## 📱 快捷键
+## 🔄 自动部署
 
-- `Ctrl/Cmd + K` - 聚焦搜索框
-- `Esc` - 清空搜索并取消聚焦
+### GitHub Pages 自动部署
 
-## 🔄 更新链接
+使用提供的 `.github/workflows/deploy.yml` 文件可以实现自动部署：
 
-### 自动部署
+1. 每次推送到 `main` 分支
+2. GitHub Actions 自动构建并部署
+3. 几分钟后更新生效
 
-推送到 GitHub 后会自动部署到 GitHub Pages 或 Cloudflare Pages。
+### Cloudflare Pages 自动部署
 
-### 手动更新
+Cloudflare Pages 默认开启自动部署：
 
-1. 修改 `config.js`
-2. 提交更改：`git commit -am "Update links"`
-3. 推送：`git push origin main`
+1. 推送到 GitHub
+2. Cloudflare 自动检测更改
+3. 自动构建和部署
 
 ## 🐛 常见问题
 
-### Q: Chrome扩展链接无法打开？
-A: 这是正常的，Chrome扩展链接只能在浏览器地址栏中直接输入打开。
+### Q: GitHub Pages 显示 404？
+A: 
+- 确认文件名是 `index.html`（小写）
+- 确认仓库是 Public
+- 等待几分钟让设置生效
 
-### Q: 如何添加图标？
-A: 使用 emoji 或者 Unicode 字符作为图标，例如：🔥、⚡、🎨
+### Q: config.js 修改后没有生效？
+A: 
+- 清除浏览器缓存（Ctrl+F5）
+- 确认文件已正确上传到 GitHub
+- 等待自动部署完成
 
-### Q: 如何修改主题颜色？
-A: 编辑 CSS 中的渐变色值或 `siteConfig.theme` 配置。
+### Q: Chrome 扩展链接点击没反应？
+A: 这是正常现象，Chrome 扩展链接只能在地址栏中输入打开。
 
-## 📝 更新日志
+### Q: 手机端显示不正常？
+A: 检查是否有语法错误，确认 CSS 中的响应式代码完整。
 
-- v1.0.0 - 初始版本
-  - 响应式设计
-  - 搜索功能
-  - 分类管理
-  - 配置文件支持
+## 📱 移动端优化
 
-## 🤝 贡献
+网站已经包含移动端优化：
 
-欢迎提交 Issue 和 Pull Request！
+- 响应式布局
+- 触摸友好的按钮尺寸
+- 自适应字体大小
+- 移动端手势支持
 
-## 📄 许可证
+## 🔒 安全建议
 
-MIT License
+1. 定期检查链接的有效性
+2. 避免添加可疑网站链接
+3. 使用 HTTPS 链接
+4. 定期备份配置文件
+
+## 📈 性能优化
+
+1. **图片优化**: 使用 emoji 代替图片图标
+2. **缓存策略**: 利用 CDN 缓存静态文件
+3. **压缩**: 在生产环境中压缩 CSS 和 JS
+4. **监控**: 使用 Google Analytics 跟踪使用情况
+
+## 📞 技术支持
+
+遇到问题可以：
+
+1. 检查浏览器控制台错误信息
+2. 查看 GitHub/Cloudflare 的构建日志
+3. 参考官方文档
+4. 提交 Issue 到项目仓库
+
+## 🎉 完成！
+
+现在你的快捷链接导航网站已经成功部署！你可以：
+
+- 通过访问链接查看网站
+- 修改 `config.js` 更新内容
+- 分享给朋友使用
+- 继续自定义功能
