@@ -180,22 +180,23 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔗 常用快捷链接</h1>
-            <p>快速访问常用网站和工具</p>
+            <h1 id="title"></h1>
+            <p id="subtitle"></p>
         </div>
-
+    
         <div class="search-box">
-            <input type="text" class="search-input" placeholder="🔍 搜索链接...">
+            <input type="text" class="search-input" id="searchInput">
         </div>
-
+    
         <div class="categories" id="categories">
             <!-- 分类将通过JavaScript动态生成 -->
         </div>
-
+    
         <div class="footer">
-            <p>© 2025 快捷链接导航 | 让访问更便捷</p>
+            <p id="footerText"></p>
         </div>
     </div>
+
     
 <script src="config.js"></script>
 <script>
