@@ -75,7 +75,7 @@
 
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
         }
 
@@ -113,7 +113,7 @@
         .links {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .link-item {
@@ -127,6 +127,8 @@
             gap: 12px;
             border: 1px solid rgba(0,0,0,0.1);
             cursor: pointer;
+            min-height: 60px;
+            overflow: hidden;
         }
 
         .link-item:hover {
@@ -139,30 +141,50 @@
             width: 20px;
             height: 20px;
             opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .link-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .link-title {
             font-weight: 500;
-            min-width: 0;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .link-url {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #666;
             opacity: 0.8;
-            flex: 1;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .copy-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: 20px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
+            border-radius: 18px;
+            padding: 8px 16px;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
+            flex-shrink: 0;
+            font-weight: 500;
         }
 
         .copy-btn:hover {
@@ -196,6 +218,28 @@
             
             body {
                 padding: 15px;
+            }
+
+            .link-item {
+                padding: 12px 16px;
+                min-height: 55px;
+            }
+
+            .link-content {
+                gap: 2px;
+            }
+
+            .link-title {
+                font-size: 0.9rem;
+            }
+
+            .link-url {
+                font-size: 0.75rem;
+            }
+
+            .copy-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
             }
         }
 
@@ -317,11 +361,16 @@
                     linkElement.setAttribute('data-title', link.title.toLowerCase());
                     linkElement.setAttribute('data-url', link.url);
                     
+                    // 截断URL显示
+                    const displayUrl = link.url.length > 35 ? link.url.substring(0, 35) + '...' : link.url;
+                    
                     linkElement.innerHTML = `
                         <span class="link-icon">${link.icon}</span>
-                        <span class="link-title">${link.title}</span>
-                        <span class="link-url">${link.url.length > 40 ? link.url.substring(0, 40) + '...' : link.url}</span>
-                        <button class="copy-btn" onclick="copyText(this)">复制链接</button>
+                        <div class="link-content">
+                            <div class="link-title" title="${link.title}">${link.title}</div>
+                            <div class="link-url" title="${link.url}">${displayUrl}</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyText(this)">复制</button>
                     `;
                     
                     linksDiv.appendChild(linkElement);
@@ -391,7 +440,7 @@
             navigator.clipboard.writeText(link).then(() => {
                 button.classList.add('copied');
                 const originalText = button.textContent;
-                button.textContent = "✓ 已复制";
+                button.textContent = "已复制";
                 
                 setTimeout(() => {
                     button.classList.remove('copied');
@@ -399,8 +448,8 @@
                 }, 2000);
             }).catch(err => {
                 console.error('复制失败:', err);
-                button.textContent = "复制失败";
-                setTimeout(() => button.textContent = "复制链接", 1500);
+                button.textContent = "失败";
+                setTimeout(() => button.textContent = "复制", 1500);
             });
         }
 
