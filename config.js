@@ -25,6 +25,13 @@ const linksConfig = {
             }
         ]
     },
+    "钱包相关": {
+        icon: "🌐",
+        links: [
+            { title: "CT", url: "https://ct.app/", icon: "🏠" },
+            { title: "提币", url: "https://cex.chaineye.tools/", icon: "🏠" }
+        ]
+    },
     "Chrome设置": {
         icon: "⚙️",
         links: [
