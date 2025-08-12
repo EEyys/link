@@ -120,18 +120,18 @@
             background: rgba(255,255,255,0.9);
             border-radius: 12px;
             padding: 15px 20px;
-            text-decoration: none;
             color: #333;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 12px;
             border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
         }
 
         .link-item:hover {
             background: white;
-            transform: translateX(5px);
+            transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
@@ -143,13 +143,40 @@
 
         .link-title {
             font-weight: 500;
-            flex: 1;
+            min-width: 0;
         }
 
         .link-url {
             font-size: 0.85rem;
             color: #666;
             opacity: 0.8;
+            flex: 1;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            transform: scale(1.1);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
         }
 
         .footer {
@@ -180,27 +207,74 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="title"></h1>
-            <p id="subtitle"></p>
+            <h1>🔗 常用快捷链接</h1>
+            <p>点击复制链接，快速访问常用网站和工具</p>
         </div>
-    
+
         <div class="search-box">
-            <input type="text" class="search-input" id="searchInput">
+            <input type="text" class="search-input" placeholder="🔍 搜索链接...">
         </div>
-    
+
         <div class="categories" id="categories">
             <!-- 分类将通过JavaScript动态生成 -->
         </div>
-    
+
         <div class="footer">
-            <p id="footerText"></p>
+            <p>© 2025 快捷链接导航 | 让访问更便捷</p>
         </div>
     </div>
 
-    
-    <script src="config.js"></script> 
-    
+    <!-- 引入配置文件 -->
+    <script src="config.js"></script>
     <script>
+        // 如果没有加载到配置文件，使用默认配置
+        if (typeof linksConfig === 'undefined') {
+            const linksConfig = {
+                "全屏钱包": {
+                    icon: "💰",
+                    links: [
+                        { title: "OKX钱包", url: "chrome-extension://mcohilncbfahbmgdjkbpemcciiolgcge/home.html", icon: "🔶" },
+                        { title: "MetaMask钱包", url: "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html", icon: "🦊" },
+                        { title: "Phantom钱包", url: "chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/popup.html", icon: "👻" }
+                    ]
+                },
+                "Chrome设置": {
+                    icon: "⚙️",
+                    links: [
+                        { title: "扩展管理", url: "chrome://extensions/", icon: "🧩" },
+                        { title: "历史记录", url: "chrome://history/", icon: "📚" },
+                        { title: "书签管理", url: "chrome://bookmarks/", icon: "🔖" },
+                        { title: "清除缓存", url: "chrome://settings/privacy", icon: "🧹" },
+                        { title: "设置语言", url: "chrome://settings/languages", icon: "🌐" },
+                        { title: "网页缩放", url: "chrome://settings/appearance", icon: "🔍" },
+                        { title: "APP管理", url: "chrome://apps/", icon: "📱" },
+                        { title: "查看版本", url: "chrome://version/", icon: "ℹ️" }
+                    ]
+                },
+                "开发工具": {
+                    icon: "🛠️",
+                    links: [
+                        { title: "GitHub", url: "https://github.com", icon: "🐱" },
+                        { title: "Stack Overflow", url: "https://stackoverflow.com", icon: "📚" },
+                        { title: "MDN Web Docs", url: "https://developer.mozilla.org", icon: "📖" },
+                        { title: "Can I Use", url: "https://caniuse.com", icon: "✅" },
+                        { title: "CodePen", url: "https://codepen.io", icon: "🖊️" }
+                    ]
+                },
+                "常用网站": {
+                    icon: "🌐",
+                    links: [
+                        { title: "Google", url: "https://google.com", icon: "🔍" },
+                        { title: "百度", url: "https://baidu.com", icon: "🔍" },
+                        { title: "腾讯邮箱", url: "https://mail.qq.com", icon: "📧" },
+                        { title: "网易邮箱", url: "https://mail.163.com", icon: "📧" },
+                        { title: "微博", url: "https://weibo.com", icon: "🐦" }
+                    ]
+                }
+            };
+            window.linksConfig = linksConfig;
+        }
+
         // 应用网站配置
         function applySiteConfig() {
             if (typeof siteConfig !== 'undefined') {
@@ -238,16 +312,16 @@
                 linksDiv.className = 'links';
 
                 categoryData.links.forEach(link => {
-                    const linkElement = document.createElement('a');
+                    const linkElement = document.createElement('div');
                     linkElement.className = 'link-item';
-                    linkElement.href = link.url;
-                    linkElement.target = '_blank';
                     linkElement.setAttribute('data-title', link.title.toLowerCase());
+                    linkElement.setAttribute('data-url', link.url);
                     
                     linkElement.innerHTML = `
                         <span class="link-icon">${link.icon}</span>
                         <span class="link-title">${link.title}</span>
                         <span class="link-url">${link.url.length > 40 ? link.url.substring(0, 40) + '...' : link.url}</span>
+                        <button class="copy-btn" onclick="copyText(this)">复制链接</button>
                     `;
                     
                     linksDiv.appendChild(linkElement);
@@ -309,6 +383,61 @@
             });
         }
 
+        // 复制链接功能
+        function copyText(button) {
+            const linkItem = button.closest('.link-item');
+            const link = linkItem.getAttribute('data-url');
+            
+            navigator.clipboard.writeText(link).then(() => {
+                button.classList.add('copied');
+                const originalText = button.textContent;
+                button.textContent = "✓ 已复制";
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = "复制失败";
+                setTimeout(() => button.textContent = "复制链接", 1500);
+            });
+        }
+
+        // 使复制函数全局可用
+        window.copyText = copyText;
+
+        // 添加右键菜单复制功能
+        function setupContextMenu() {
+            document.addEventListener('contextmenu', (e) => {
+                const linkItem = e.target.closest('.link-item');
+                if (linkItem) {
+                    e.preventDefault();
+                    const copyBtn = linkItem.querySelector('.copy-btn');
+                    if (copyBtn) {
+                        copyText(copyBtn);
+                    }
+                }
+            });
+        }
+
+        // 添加键盘复制功能
+        function setupKeyboardCopy() {
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + C 在悬停的链接项上
+                if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                    const hoveredItem = document.querySelector('.link-item:hover');
+                    if (hoveredItem) {
+                        e.preventDefault();
+                        const copyBtn = hoveredItem.querySelector('.copy-btn');
+                        if (copyBtn) {
+                            copyText(copyBtn);
+                        }
+                    }
+                }
+            });
+        }
+
         // 添加导出功能
         function exportConfig() {
             const configToExport = {
@@ -343,13 +472,16 @@
             setupSearch();
             setupKeyboardShortcuts();
             setupAdminShortcuts();
+            setupContextMenu();
+            setupKeyboardCopy();
         });
 
         // 点击统计（可选）
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.link-item')) {
-                const linkTitle = e.target.closest('.link-item').querySelector('.link-title').textContent;
-                console.log(`Clicked: ${linkTitle}`);
+            if (e.target.closest('.copy-btn')) {
+                const linkItem = e.target.closest('.link-item');
+                const linkTitle = linkItem.querySelector('.link-title').textContent;
+                console.log(`Copied: ${linkTitle}`);
                 // 这里可以添加统计代码
             }
         });
